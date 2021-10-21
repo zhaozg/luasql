@@ -49,6 +49,18 @@ typedef struct
 } cur_data;
 
 
+#if !defined LUA_VERSION_NUM || LUA_VERSION_NUM<503
+static int lua_isinteger (lua_State *L, int index) {
+  if (lua_type(L, index) == LUA_TNUMBER) {
+    lua_Number n = lua_tonumber(L, index);
+    lua_Integer i = lua_tointeger(L, index);
+    if (i == n)
+      return 1;
+  }
+  return 0;
+}
+#endif
+
 /*
 ** Check for valid environment.
 */
